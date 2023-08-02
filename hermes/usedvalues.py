@@ -9,7 +9,7 @@ def write_used_values(directory, params):
         f.write('\n')
 
 
-def read_used_values(directory):
+def load_used_values(directory):
     import json
     from os.path import join
 
@@ -19,3 +19,20 @@ def read_used_values(directory):
     except OSError:
         logging.error("Could not find simulation at %s.\n(No .hermes_usedvalues.json file exists.)", directory)
         raise
+
+
+def load_used_values_from_parent(dir):
+    import json
+    from pathlib import Path
+
+    dir = Path(dir)
+
+    if dir.joinpath('.hermes_usedvalues.json').is_file():
+        return json.load(open(dir.joinpath('.hermes_usedvalues.json'), 'r')), str(dir)
+    
+    for parent in dir.parents:
+        if parent.joinpath('.hermes_usedvalues.json').is_file():
+            return json.load(open(parent.joinpath('.hermes_usedvalues.json'), 'r')), str(parent)
+    
+    return None
+
