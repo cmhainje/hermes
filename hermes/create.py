@@ -7,6 +7,7 @@ create a new simulation
 import logging
 
 from .render import find_templates, render_jinja_template
+from .usedvalues import write_used_values
 
 
 def create(args):
@@ -30,12 +31,3 @@ def create(args):
 
     # and finally we write out the values we used
     write_used_values(args.directory, jinja_params)
-
-
-def write_used_values(directory, params):
-    import json
-    from os.path import join
-
-    with open(join(directory, '.hermes_usedvalues.json'), 'w') as f:
-        json.dump(params, f, indent=4, sort_keys=True)
-        f.write('\n')

@@ -6,27 +6,18 @@ edit an existing simulation
 
 import logging
 
-from .create import write_used_values
 from .render import find_templates, render_jinja_template
+from .usedvalues import load_used_values, write_used_values
 
 
 def edit(args):
-    import json
-
-    from os.path import expanduser, join, abspath
+    from os.path import expanduser, abspath
 
     args.template = abspath(expanduser(args.template))
     args.directory = abspath(expanduser(args.directory))
 
-    # find the simulation
-    try:
-        fname = join(args.directory, '.hermes_usedvalues.json')
-        used_values = json.load(open(fname, 'r'))
-    except OSError:
-        logging.error("Could not find simulation at %s.\n(No .hermes_usedvalues.json file exists.)", args.directory)
-        raise
-
     # replace any unspecified parameters with the values from the used values file
+    used_values = load_used_values(args.directory)
     for param, value in used_values.items():
         if getattr(args, param) is None:
             setattr(args, param, value)
