@@ -15,6 +15,9 @@ def main():
     args = parse(cfg)
     logging.debug("Arguments parsed: %s", args)
 
+    if not hasattr(args, 'template') or args.template is None:
+        setattr(args, 'template', cfg['template'])
+
     if args.action == 'config':
         if args.config_action == 'new':
             logging.info("Creating new configuration file at %s.", args.directory)
@@ -27,11 +30,9 @@ def main():
             raise ValueError(f"Unknown config_action {args.config_action}.")
         return
 
-    if args.template is None:
-        args.template = cfg['template']
-
-    if args.action == 'create':
-        print("args.action is create!")
+    elif args.action == 'create':
         create(args)
 
+    else:
+        raise NotImplementedError(f"Action {args.action} not implemented.")
     
