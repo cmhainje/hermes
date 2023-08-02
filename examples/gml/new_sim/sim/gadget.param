@@ -1,0 +1,87 @@
+%----  Relevant files
+InitCondFile        /Users/connor/Documents/research/geoml/hermes/examples/gml/new_sim/ics/ics
+OutputDir           ./output
+SnapshotFileBase    snapshot
+OutputListFilename  outputs_lcdm_gas.txt
+
+%---- File formats
+ICFormat           3
+SnapFormat         3
+
+%---- CPU-time limits
+TimeLimitCPU              180000  % in seconds
+CpuTimeBetRestartFile     7200    % in seconds
+
+%----- Memory alloction
+MaxMemSize        2300
+
+%---- Caracteristics of run
+TimeBegin           0.0078125       % Begin of the simulation, equal to 1/(1 + zstart) for z=127
+TimeMax	            1.0             % End of the simulation,   equal to 1/(1 + zstart) for z=0
+
+%---- Basic code options that set the type of simulation
+ComovingIntegrationOn    1
+
+%---- Cosmological parameters
+% Omega0                0.3
+% OmegaLambda           0.7
+% OmegaBaryon           0.04
+% HubbleParam           0.7
+% Hubble                0.1
+Omega0                0.3158
+OmegaLambda           0.6842
+OmegaBaryon           0.0494
+HubbleParam           0.67321
+Hubble                100.0
+BoxSize               300.0
+
+%---- Output frequency and output paramaters
+OutputListOn              0
+TimeBetSnapshot           1.8384163   % 5 constant steps in log(a)
+TimeOfFirstSnapshot       0.0078125   % z=127
+TimeBetStatistics         0.05
+NumFilesPerSnapshot       1
+MaxFilesWithConcurrentIO  1
+
+%---- Accuracy of time integration
+ErrTolIntAccuracy        0.012
+CourantFac               0.15
+MaxSizeTimestep          0.025
+MinSizeTimestep          0.0
+
+%---- Tree algorithm, force accuracy, domain update frequency
+TypeOfOpeningCriterion                1
+ErrTolTheta                           0.5
+ErrTolThetaMax                        1.0
+ErrTolForceAcc                        0.0025
+TopNodeFactor                         2.5
+
+ActivePartFracForNewDomainDecomp      0.01
+
+%---- Initial density estimate
+DesNumNgb              64
+MaxNumNgbDeviation     1
+
+%---- System of units
+UnitLength_in_cm         3.085678e24        ;  1.0 Mpc/h
+UnitMass_in_g            1.989e43           ;  1.0e10/h solar masses
+UnitVelocity_in_cm_per_s 1e5                ;  1 km/sec
+GravityConstantInternal  0
+
+
+%---- Gravitational softening length
+SofteningComovingClass0     600.0
+SofteningMaxPhysClass0      600.0
+
+SofteningClassOfPartType0    0
+SofteningClassOfPartType1    0
+SofteningClassOfPartType2    0
+SofteningClassOfPartType3    0
+SofteningClassOfPartType4    0
+SofteningClassOfPartType5    0
+
+
+%----- SPH
+ArtBulkViscConst       1.0
+MinEgySpec             0
+InitGasTemp            1000.0    % in K

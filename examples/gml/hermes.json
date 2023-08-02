@@ -1,0 +1,6 @@
+{
+    "template": "~/Documents/research/geoml/hermes/examples/gml/template",
+    "parameters": {
+        "name": "sim"
+    }
+}
