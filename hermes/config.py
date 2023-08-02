@@ -37,6 +37,8 @@ def look_for_local_file(dir=None):
 
     if dir is None:
         dir = Path.cwd()
+    else:
+        dir = Path(dir)
 
     if dir.joinpath('hermes.json').is_file():
         return dir.joinpath('hermes.json')
