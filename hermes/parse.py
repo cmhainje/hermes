@@ -19,9 +19,8 @@ def parse(cfg=None):
     edit.add_argument('directory', help='the directory to edit', nargs='?', default='.')
 
     # Clean: clean up a simulation
-    clean = subparsers.add_parser('clean', help='cleans up a simulation')
-    clean.add_argument('directory', help='the directory to clean', nargs='?', default='.')
-    clean.add_argument('--template', help='template directory', default=None)
+    clean = subparsers.add_parser('clean', help='cleans up a simulation', aliases=['rm'])
+    clean.add_argument('directory', help='the directory or subdirectory to clean', nargs='?', default='.')
 
     # Config: create a new config file or show the current configuration
     config = subparsers.add_parser('config', help='manages the configuration')
@@ -31,6 +30,7 @@ def parse(cfg=None):
     cfg_show = cfg_subs.add_parser('show', help='shows the current configuration')
 
     cfg_has_params = cfg is not None and 'parameters' in cfg and len(cfg['parameters']) > 0
+    actions_with_params = ['create', 'edit']
 
     if cfg_has_params:
         logging.info("Adding parameters from config to relevant subparsers.")
@@ -43,7 +43,7 @@ def parse(cfg=None):
     args = ap.parse_args()
 
     # if any parameters are specified to take the value of another parameters, update them here
-    if cfg_has_params:
+    if cfg_has_params and args.action in actions_with_params:
         logging.info("Checking for parameters that are not set.")
         if args.action != 'edit':
             for param, value in cfg['parameters'].items():

@@ -1,5 +1,6 @@
 import logging
 
+from .clean import clean
 from .config import load_configuration, create_config_file
 from .create import create
 from .edit import edit
@@ -36,6 +37,9 @@ def main():
 
     elif args.action == 'edit':
         edit(args)
+    
+    elif args.action == 'clean':
+        clean(args)
 
     else:
         raise NotImplementedError(f"Action {args.action} not implemented.")
