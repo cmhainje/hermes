@@ -2,6 +2,7 @@ import logging
 
 from .clean import clean
 from .config import load_configuration, create_config_file
+from .copy import copy
 from .create import create
 from .edit import edit
 from .parse import parse
@@ -40,6 +41,9 @@ def main():
     
     elif args.action == 'clean':
         clean(args)
+
+    elif args.action == 'copy':
+        copy(args)
 
     else:
         raise NotImplementedError(f"Action {args.action} not implemented.")

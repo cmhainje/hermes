@@ -22,6 +22,11 @@ def parse(cfg=None):
     clean = subparsers.add_parser('clean', help='cleans up a simulation', aliases=['rm'])
     clean.add_argument('directory', help='the directory or subdirectory to clean', nargs='?', default='.')
 
+    # Copy: copy a simulation
+    copy = subparsers.add_parser('copy', help='copies a simulation', aliases=['cp'])
+    copy.add_argument('src', help='the source directory')
+    copy.add_argument('dest', help='the destination directory')
+
     # Config: create a new config file or show the current configuration
     config = subparsers.add_parser('config', help='manages the configuration')
     cfg_subs = config.add_subparsers(dest='config_action')
