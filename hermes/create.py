@@ -5,6 +5,9 @@ create a new simulation
 """
 
 import logging
+
+from .render import find_templates, render_jinja_template
+
 import re
 
 
@@ -30,35 +33,16 @@ def create(args):
     logging.info("Copied template from %s to %s.", args.template, args.directory)
 
     # find the files that look like Jinja templates
-    jinja_templates = []
-    for dirpath, dirnames, fnames in walk(args.directory):
-        for fname in fnames:
-            fullpath = join(dirpath, fname)
-            with open(fullpath, 'r') as f:
-                contents = f.read()
-                if JINJA_DELIMITER_REGEX.search(contents) is not None:
-                    jinja_templates.append(relpath(fullpath, args.directory))
-                    logging.debug("Found Jinja template %s.", fullpath)
+    jinja_templates = find_templates(args.template)
 
     # now we use jinja to render the templates and replace the files
     jinja_params = vars(args)  # converts 'args' into a dict
     for template in jinja_templates:
         logging.info("Rendering template %s.", template)
-        render_jinja_template(template, args.directory, jinja_params)
+        render_jinja_template(args.template, template, args.directory, jinja_params)
 
     # and finally we write out the values we used
     write_used_values(args.directory, jinja_params)
-
-
-def render_jinja_template(template, directory, params):
-    from jinja2 import Environment, FileSystemLoader
-
-    env = Environment(loader=FileSystemLoader(directory))
-    template = env.get_template(template)
-    rendered = template.render(**params)
-
-    with open(template.filename, 'w') as f:
-        f.write(rendered)
 
 
 def write_used_values(directory, params):
