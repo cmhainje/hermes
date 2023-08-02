@@ -2,6 +2,7 @@ import logging
 
 from .config import load_configuration, create_config_file
 from .create import create
+from .edit import edit
 from .parse import parse
 
 
@@ -32,6 +33,9 @@ def main():
 
     elif args.action == 'create':
         create(args)
+
+    elif args.action == 'edit':
+        edit(args)
 
     else:
         raise NotImplementedError(f"Action {args.action} not implemented.")
