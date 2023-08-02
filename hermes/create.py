@@ -8,18 +8,6 @@ import logging
 
 from .render import find_templates, render_jinja_template
 
-import re
-
-
-JINJA_DELIMITER_REGEX = re.compile("""
-\{  # opening curly brace
-(
-    ( \{ .* \} )  # curly braces around _anything_
-    |             # OR
-    ( \% .* \% )  # percent signs around _anything_
-)
-\}  # closing curly brace""", re.VERBOSE)
-
 
 def create(args):
     from os.path import expanduser, join, relpath, abspath
