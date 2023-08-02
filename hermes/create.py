@@ -10,8 +10,7 @@ from .render import find_templates, render_jinja_template
 
 
 def create(args):
-    from os.path import expanduser, join, relpath, abspath
-    from os import walk
+    from os.path import expanduser, abspath
     from shutil import copytree
 
     args.template = abspath(expanduser(args.template))
