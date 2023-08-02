@@ -46,6 +46,9 @@ def create(args):
         logging.info("Rendering template %s.", template)
         render_jinja_template(template, args.directory, jinja_params)
 
+    # and finally we write out the values we used
+    write_used_values(args.directory, jinja_params)
+
 
 def render_jinja_template(template, directory, params):
     from jinja2 import Environment, FileSystemLoader
@@ -56,3 +59,12 @@ def render_jinja_template(template, directory, params):
 
     with open(template.filename, 'w') as f:
         f.write(rendered)
+
+
+def write_used_values(directory, params):
+    import json
+    from os.path import join
+
+    with open(join(directory, '.hermes_usedvalues.json'), 'w') as f:
+        json.dump(params, f, indent=4, sort_keys=True)
+        f.write('\n')
