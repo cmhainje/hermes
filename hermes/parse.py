@@ -11,8 +11,12 @@ def parse(cfg=None):
 
     # Create: create a new simulation
     create = subparsers.add_parser('create', help='creates a simulation')
-    create.add_argument('directory', help='the directory to create the simulation in', nargs='?', default='.')
+    create.add_argument('directory', help='the name of the directory to create')
     create.add_argument('--template', help='template directory', default=None)
+
+    # Edit: edit a simulation
+    edit = subparsers.add_parser('edit', help='edits a simulation by re-rendering the templates with new values')
+    edit.add_argument('directory', help='the directory to edit', nargs='?', default='.')
 
     # Clean: clean up a simulation
     clean = subparsers.add_parser('clean', help='cleans up a simulation')
@@ -26,19 +30,27 @@ def parse(cfg=None):
     cfg_new.add_argument('directory', help='the directory to create the configuration file in', nargs='?', default='.')
     cfg_show = cfg_subs.add_parser('show', help='shows the current configuration')
 
-    if cfg is not None and 'parameters' in cfg and len(cfg['parameters']) > 0:
-        logging.info("Adding parameters from config to argument parser.")
-        for param, default in cfg['parameters'].items():
-            logging.debug('Adding parameter "%s" with default "%s".', param, default)
-            ap.add_argument(f'--{param}', default=default)
+    cfg_has_params = cfg is not None and 'parameters' in cfg and len(cfg['parameters']) > 0
+
+    if cfg_has_params:
+        logging.info("Adding parameters from config to relevant subparsers.")
+        for param in cfg['parameters'].keys():
+            logging.debug('Adding parameter "%s".', param)
+            create.add_argument(f'--{param}', default=None)
+            edit.add_argument(f'--{param}', default=None)
 
     logging.info("Parsing arguments.")
     args = ap.parse_args()
 
     # if any parameters are specified to take the value of another parameters, update them here
-    if cfg is not None and 'parameters' in cfg and len(cfg['parameters']) > 0:
-        logging.info("Checking for parameters that take the value of other parameters.")
+    if cfg_has_params:
+        logging.info("Checking for parameters that are not set.")
+        if args.action != 'edit':
+            for param, value in cfg['parameters'].items():
+                if getattr(args, param) is None:
+                    setattr(args, param, value)
 
+        logging.info("Checking for parameters that take the value of other parameters.")
         for param in cfg['parameters'].keys():
             value = getattr(args, param)
             if value.startswith('{{') and value.endswith('}}'):
