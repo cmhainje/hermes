@@ -39,10 +39,10 @@ def main():
     elif args.action == 'edit':
         edit(args)
     
-    elif args.action == 'clean':
+    elif args.action == 'clean' or args.action == 'rm':
         clean(args)
 
-    elif args.action == 'copy':
+    elif args.action == 'copy' or args.action == 'cp':
         copy(args)
 
     else:
