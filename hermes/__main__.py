@@ -6,6 +6,7 @@ from .copy import copy
 from .create import create
 from .edit import edit
 from .parse import parse
+from .run import run
 
 
 logging.basicConfig(level=logging.WARNING)
@@ -44,6 +45,9 @@ def main():
 
     elif args.action == 'copy' or args.action == 'cp':
         copy(args)
+
+    elif args.action == 'run':
+        run(args, cfg)
 
     else:
         raise NotImplementedError(f"Action {args.action} not implemented.")

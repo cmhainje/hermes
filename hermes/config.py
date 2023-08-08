@@ -69,6 +69,8 @@ def create_config_file(directory):
             '{',
             '    "template": "default",',
             '    "parameters": {',
+            '    },',
+            '    "tasks": {',
             '    }',
             '}',
         ]

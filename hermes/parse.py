@@ -26,6 +26,11 @@ def parse(cfg=None):
     copy = subparsers.add_parser('copy', help='copies a simulation', aliases=['cp'])
     copy.add_argument('src', help='the source directory')
     copy.add_argument('dest', help='the destination directory')
+    
+    # Run: run a task
+    run = subparsers.add_parser('run', help='runs a task')
+    run.add_argument('task', help='the task to run')
+    run.add_argument('directory', help='the directory to run the task in', nargs='?', default='.')
 
     # Config: create a new config file or show the current configuration
     config = subparsers.add_parser('config', help='manages the configuration')
@@ -35,7 +40,7 @@ def parse(cfg=None):
     cfg_show = cfg_subs.add_parser('show', help='shows the current configuration')
 
     cfg_has_params = cfg is not None and 'parameters' in cfg and len(cfg['parameters']) > 0
-    actions_with_params = ['create', 'edit']
+    actions_with_params = ['create', 'edit', 'copy', 'cp']
 
     if cfg_has_params:
         logging.info("Adding parameters from config to relevant subparsers.")
@@ -60,7 +65,7 @@ def parse(cfg=None):
         for param in cfg['parameters'].keys():
             value = getattr(args, param)
             if value.startswith('{{') and value.endswith('}}'):
-                other_param = value[2:-2]
+                other_param = value[2:-2].strip()
                 if not hasattr(args, other_param):
                     logging.warning('Parameter "%s" is set to take the value of "%s", but "%s" is not a parameter.', param, other_param, other_param)
                     continue

@@ -2,5 +2,9 @@
     "template": "~/Documents/research/geoml/hermes/examples/gml/template",
     "parameters": {
         "name": "{{directory}}"
+    },
+    "tasks": {
+        "greet": "echo Hello!",
+        "print": "cat sim/run_gadget.sh"
     }
 }
