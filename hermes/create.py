@@ -14,7 +14,7 @@ from .usedvalues import write_used_values
 
 
 def create(args):
-    logging.info("Creating new simulation from template %s in %s.", args.template, args.directory)
+    print("Creating new simulation from template %s in %s." % (args.template, args.directory))
 
     args.template = abspath(expanduser(args.template))
     args.directory = abspath(expanduser(args.directory))

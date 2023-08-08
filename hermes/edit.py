@@ -14,7 +14,7 @@ from .patch import patch
 
 
 def edit(args):
-    logging.info("Editing simulation in %s.", args.directory)
+    print("Editing simulation in %s." % args.directory)
 
     args.template = abspath(expanduser(args.template))
     args.directory = abspath(expanduser(args.directory))

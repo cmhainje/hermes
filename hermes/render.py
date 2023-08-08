@@ -34,7 +34,7 @@ def find_templates(template_dir):
             fullpath = join(dirpath, fname)
             if looks_like_a_template(fullpath):
                 jinja_templates.append(relpath(fullpath, template_dir))
-                logging.debug("Found Jinja template %s.", fullpath)
+                logging.info("Found Jinja template %s.", fullpath)
 
     return jinja_templates
 

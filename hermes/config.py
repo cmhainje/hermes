@@ -15,19 +15,21 @@ def load_configuration():
     # user global config
     global_file = Path('~/.config/hermes.json').expanduser()
     if global_file.is_file():
-        logging.debug("User global config found at %s.", global_file)
+        logging.info("User global config found at %s.", global_file)
         cfg.update(load_config_file(global_file))
     else:
-        logging.debug("No user global config found.")
+        logging.info("No user global config found.")
 
 
     # local config
     local_file = look_for_local_file()
     if local_file:
-        logging.debug("Local config found at %s.", local_file)
+        logging.info("Local config found at %s.", local_file)
         cfg.update(load_config_file(local_file))
     else:
-        logging.debug("No local config found.")
+        logging.info("No local config found.")
+
+    logging.debug("Configuration that was loaded: %s.", cfg)
 
     return cfg
 
@@ -63,7 +65,7 @@ def create_config_file(directory):
     from os.path import join
 
     filename = join(directory, "hermes.json")
-    logging.debug("Creating new config file at %s.", filename)
+    logging.info("Creating new config file at %s.", filename)
     with open(filename, "w") as f:
         lines = [
             '{',

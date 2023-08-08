@@ -11,7 +11,7 @@ from .usedvalues import load_used_values, write_used_values
 
 
 def copy(args):
-    logging.info("Copying simulation from %s to %s.", args.src, args.dest)
+    print("Copying simulation from %s to %s." % (args.src, args.dest))
 
     src = abspath(expanduser(args.src))
     dest = abspath(expanduser(args.dest))

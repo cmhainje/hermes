@@ -7,6 +7,7 @@ from .create import create
 from .edit import edit
 from .parse import parse
 from .run import run
+from .multi import run_multi
 
 
 logging.basicConfig(level=logging.WARNING)
@@ -24,10 +25,10 @@ def main():
 
     if args.action == 'config':
         if args.config_action == 'new':
-            logging.info("Creating new configuration file at %s.", args.directory)
+            print("Creating new configuration file at %s." % args.directory)
             create_config_file(args.directory)
         elif args.config_action == 'show':
-            logging.info("Printing current configuration.")
+            print("Printing current configuration.")
             print(cfg)
         else:
             logging.error("Unknown config_action %s.", args.config_action)
@@ -35,19 +36,19 @@ def main():
         return
 
     elif args.action == 'create':
-        create(args)
+        run_multi(create, args)
 
     elif args.action == 'edit':
         edit(args)
     
     elif args.action == 'clean' or args.action == 'rm':
-        clean(args)
+        run_multi(clean, args)
 
     elif args.action == 'copy' or args.action == 'cp':
         copy(args)
 
     elif args.action == 'run':
-        run(args, cfg)
+        run_multi(run, args, cfg)
 
     else:
         raise NotImplementedError(f"Action {args.action} not implemented.")

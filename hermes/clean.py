@@ -19,7 +19,7 @@ def walk_list(directory):
 
 
 def clean(args):
-    logging.info("Cleaning simulation in %s.", args.directory)
+    print("Cleaning simulation in %s." % args.directory)
 
     used_values, simulation_dir = load_used_values_from_parent(args.directory)
     subdir_only = (simulation_dir != args.directory)
