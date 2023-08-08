@@ -1,12 +1,12 @@
 import logging
 
+from os import remove, rmdir, walk
+from os.path import join, relpath, abspath
+
 from .usedvalues import load_used_values_from_parent
 
 
 def walk_list(directory):
-    from os import walk
-    from os.path import join, relpath
-
     dirs = []
     files = []
     for dirpath, dirnames, fnames in walk(directory):
@@ -19,8 +19,7 @@ def walk_list(directory):
 
 
 def clean(args):
-    from os import remove, rmdir
-    from os.path import join, relpath, abspath
+    logging.info("Cleaning simulation in %s.", args.directory)
 
     used_values, simulation_dir = load_used_values_from_parent(args.directory)
     subdir_only = (simulation_dir != args.directory)

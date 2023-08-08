@@ -1,5 +1,9 @@
 import logging
 
+from os.path import expanduser, abspath, join
+from os import makedirs
+from shutil import copy
+
 from .clean import walk_list
 from .render import find_templates
 from .patch import patch
@@ -7,9 +11,7 @@ from .usedvalues import load_used_values, write_used_values
 
 
 def copy(args):
-    from os.path import expanduser, abspath, join
-    from os import makedirs
-    from shutil import copy
+    logging.info("Copying simulation from %s to %s.", args.src, args.dest)
 
     src = abspath(expanduser(args.src))
     dest = abspath(expanduser(args.dest))

@@ -6,13 +6,15 @@ create a new simulation
 
 import logging
 
+from os.path import expanduser, abspath
+from shutil import copytree
+
 from .render import find_templates, render_jinja_template
 from .usedvalues import write_used_values
 
 
 def create(args):
-    from os.path import expanduser, abspath
-    from shutil import copytree
+    logging.info("Creating new simulation from template %s in %s.", args.template, args.directory)
 
     args.template = abspath(expanduser(args.template))
     args.directory = abspath(expanduser(args.directory))

@@ -6,13 +6,15 @@ edit an existing simulation
 
 import logging
 
+from os.path import expanduser, abspath
+
 from .render import find_templates
 from .usedvalues import load_used_values, write_used_values
 from .patch import patch
 
 
 def edit(args):
-    from os.path import expanduser, abspath
+    logging.info("Editing simulation in %s.", args.directory)
 
     args.template = abspath(expanduser(args.template))
     args.directory = abspath(expanduser(args.directory))
