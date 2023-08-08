@@ -14,10 +14,10 @@ def patch(template_dir, template_name, output_dir, used_values, new_values):
     patches = dmp.patch_make(old_render, diff)
 
     existing_file = join(output_dir, template_name)
-    with open(existing_file, 'r') as f:
+    with open(existing_file, "r") as f:
         current = f.read()
 
     patched, _ = dmp.patch_apply(patches, current)
 
-    with open(existing_file, 'w') as f:
+    with open(existing_file, "w") as f:
         f.write(patched)

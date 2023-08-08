@@ -4,15 +4,15 @@ import csv
 from os.path import join
 
 
-MULTI_FILE = '.hermes_multi.json'
+MULTI_FILE = ".hermes_multi.json"
 
 
 def read_multi_parameter(multi):
     from os.path import isdir, join
 
     # multi might be a csv file
-    if multi.lower().endswith('.csv'):
-        return { "directories": read_csv(multi) }
+    if multi.lower().endswith(".csv"):
+        return {"directories": read_csv(multi)}
 
     # multi might be a directory
     elif isdir(multi):
@@ -30,21 +30,27 @@ class FakeArgs:
 
 
 def run_multi(action_fn, args, *extra_args):
-    if hasattr(args, 'multi') and args.multi is not None:
+    if hasattr(args, "multi") and args.multi is not None:
         print("Running %s on multiple simulations." % args.action)
         params = read_multi_parameter(args.multi)
 
-        if 'template' not in params:
-            params['template'] = args.template
+        if "template" not in params:
+            params["template"] = args.template
 
-        for p in params['directories']:
-            logging.info("Running %s on simulation %s.", args.action, p['directory'])
+        for p in params["directories"]:
+            logging.info("Running %s on simulation %s.", args.action, p["directory"])
             fake_args = FakeArgs(p)
-            setattr(fake_args, 'template', args.template)
-            if hasattr(args, 'task'):
-                setattr(fake_args, 'task', args.task)
-            if not fake_args.directory.startswith('/') and args.directory is not None and args.directory != '.':
-                setattr(fake_args, 'directory', join(args.directory, fake_args.directory))
+            setattr(fake_args, "template", args.template)
+            if hasattr(args, "task"):
+                setattr(fake_args, "task", args.task)
+            if (
+                not fake_args.directory.startswith("/")
+                and args.directory is not None
+                and args.directory != "."
+            ):
+                setattr(
+                    fake_args, "directory", join(args.directory, fake_args.directory)
+                )
             action_fn(fake_args, *extra_args)
 
         write_used_values(args.directory, params)
@@ -64,9 +70,9 @@ def write_used_values(directory, multi_params):
     import json
     from os.path import join
 
-    with open(join(directory, MULTI_FILE), 'w') as f:
+    with open(join(directory, MULTI_FILE), "w") as f:
         json.dump(multi_params, f, indent=4, sort_keys=True)
-        f.write('\n')
+        f.write("\n")
 
 
 def read_used_values(directory):
@@ -77,7 +83,11 @@ def read_used_values(directory):
     logging.info("Reading parameters from %s.", fname)
 
     try:
-        return json.load(open(fname, 'r'))
+        return json.load(open(fname, "r"))
     except OSError:
-        logging.error("Could not find multi simulation at %s.\n(No %s file exists.)", directory, MULTI_FILE)
+        logging.error(
+            "Could not find multi simulation at %s.\n(No %s file exists.)",
+            directory,
+            MULTI_FILE,
+        )
         raise

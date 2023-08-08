@@ -22,9 +22,9 @@ def clean(args):
     print("Cleaning simulation in %s." % args.directory)
 
     used_values, simulation_dir = load_used_values_from_parent(args.directory)
-    subdir_only = (simulation_dir != args.directory)
+    subdir_only = simulation_dir != args.directory
 
-    template_dir = used_values['template']
+    template_dir = used_values["template"]
 
     # Delete everything in args.directory that isn't in template_dir
     # (except for .hermes_usedvalues.json)
@@ -33,12 +33,14 @@ def clean(args):
 
     if subdir_only:
         # fix paths
-        fix_path = lambda path: relpath(abspath(join(args.directory, path)), simulation_dir) 
-        simulation_files = [ fix_path(fname) for fname in simulation_files ]
-        simulation_dirs = [ fix_path(dirname) for dirname in simulation_dirs ]
+        fix_path = lambda path: relpath(
+            abspath(join(args.directory, path)), simulation_dir
+        )
+        simulation_files = [fix_path(fname) for fname in simulation_files]
+        simulation_dirs = [fix_path(dirname) for dirname in simulation_dirs]
 
     for fname in simulation_files:
-        if fname == '.hermes_usedvalues.json':
+        if fname == ".hermes_usedvalues.json":
             continue
         if fname not in template_files:
             fullpath = join(simulation_dir, fname)
@@ -50,4 +52,3 @@ def clean(args):
             fullpath = join(simulation_dir, dirname)
             rmdir(fullpath)
             logging.info("Deleted %s.", fullpath)
-

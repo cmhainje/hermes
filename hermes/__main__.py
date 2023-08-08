@@ -20,14 +20,14 @@ def main():
     args = parse(cfg)
     logging.debug("Arguments parsed: %s", args)
 
-    if not hasattr(args, 'template') or args.template is None:
-        setattr(args, 'template', cfg['template'])
+    if not hasattr(args, "template") or args.template is None:
+        setattr(args, "template", cfg["template"])
 
-    if args.action == 'config':
-        if args.config_action == 'new':
+    if args.action == "config":
+        if args.config_action == "new":
             print("Creating new configuration file at %s." % args.directory)
             create_config_file(args.directory)
-        elif args.config_action == 'show':
+        elif args.config_action == "show":
             print("Printing current configuration.")
             print(cfg)
         else:
@@ -35,21 +35,20 @@ def main():
             raise ValueError(f"Unknown config_action {args.config_action}.")
         return
 
-    elif args.action == 'create':
+    elif args.action == "create":
         run_multi(create, args)
 
-    elif args.action == 'edit':
+    elif args.action == "edit":
         edit(args)
-    
-    elif args.action == 'clean' or args.action == 'rm':
+
+    elif args.action == "clean" or args.action == "rm":
         run_multi(clean, args)
 
-    elif args.action == 'copy' or args.action == 'cp':
+    elif args.action == "copy" or args.action == "cp":
         copy(args)
 
-    elif args.action == 'run':
+    elif args.action == "run":
         run_multi(run, args, cfg)
 
     else:
         raise NotImplementedError(f"Action {args.action} not implemented.")
-    

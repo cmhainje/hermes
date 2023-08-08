@@ -17,7 +17,7 @@ def copy(args):
     dest = abspath(expanduser(args.dest))
 
     used_values = load_used_values(src)
-    template_dir = abspath(expanduser(used_values['template']))
+    template_dir = abspath(expanduser(used_values["template"]))
 
     # remake the `template` directory structure in `dest`
     template_files, template_dirs = walk_list(template_dir)
@@ -33,10 +33,10 @@ def copy(args):
     jinja_templates = find_templates(template_dir)
 
     # now we use jinja to patch the templates
-    jinja_params = dict( (k, v) for k, v in used_values.items() )
-    new_values = ( (k, v) for k, v in vars(args).items() if v is not None )
+    jinja_params = dict((k, v) for k, v in used_values.items())
+    new_values = ((k, v) for k, v in vars(args).items() if v is not None)
     jinja_params.update(new_values)
-    jinja_params['directory'] = dest
+    jinja_params["directory"] = dest
 
     for template in jinja_templates:
         logging.info("Patching %s.", template)
