@@ -46,7 +46,7 @@ def clean(args):
             remove(fullpath)
             logging.info("Deleted %s.", fullpath)
 
-    for dirname in simulation_dirs:
+    for dirname in simulation_dirs[::-1]:
         if dirname not in template_dirs:
             fullpath = join(simulation_dir, dirname)
             rmdir(fullpath)
