@@ -26,11 +26,11 @@ def edit(args):
     # find the files that look like Jinja templates
     jinja_templates = find_templates(args.template)
 
-    # now we use jinja to re-render the templates and replace the files
+    # now we use jinja to patch the templates
     jinja_params = vars(args)  # converts 'args' into a dict
     for template in jinja_templates:
         logging.info("Patching %s.", template)
-        patch(args, template, used_values)
+        patch(args.template, template, args.directory, used_values, jinja_params)
 
     # and finally we write out the values we used
     write_used_values(args.directory, jinja_params)
