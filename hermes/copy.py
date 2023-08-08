@@ -1,36 +1,44 @@
 import logging
 
+from .clean import walk_list
+from .render import find_templates
+from .patch import patch
 from .usedvalues import load_used_values, write_used_values
-from .render import find_templates, render_jinja_template
+
 
 def copy(args):
-    from os.path import expanduser, abspath
-    from shutil import copytree
+    from os.path import expanduser, abspath, join
+    from os import makedirs
+    from shutil import copy
 
     src = abspath(expanduser(args.src))
-    used_values = load_used_values(src)
-
     dest = abspath(expanduser(args.dest))
-    
-    # copy the template directory
-    copytree(used_values['template'], dest)
-    logging.info("Copied template from %s to %s.", used_values['template'], dest)
+
+    used_values = load_used_values(src)
+    template_dir = abspath(expanduser(used_values['template']))
+
+    # remake the `template` directory structure in `dest`
+    template_files, template_dirs = walk_list(template_dir)
+    for dirname in template_dirs:
+        makedirs(join(dest, dirname))
+
+    # copy files in `template` from `src` to `dest`
+    for fname in template_files:
+        copy(join(src, fname), join(dest, fname))
+        logging.info("Copied file from %s to %s.", join(src, fname), join(dest, fname))
 
     # find the files that look like Jinja templates
-    jinja_templates = find_templates(used_values['template'])
+    jinja_templates = find_templates(template_dir)
 
-    # now we use jinja to render the templates and replace the files
-    jinja_params = used_values  # converts 'args' into a dict
+    # now we use jinja to patch the templates
+    jinja_params = dict( (k, v) for k, v in used_values.items() )
+    new_values = ( (k, v) for k, v in vars(args).items() if v is not None )
+    jinja_params.update(new_values)
     jinja_params['directory'] = dest
 
     for template in jinja_templates:
-        logging.info("Rendering template %s.", template)
-        render_jinja_template(used_values['template'], template, dest, jinja_params)
+        logging.info("Patching %s.", template)
+        patch(template_dir, template, dest, used_values, jinja_params)
 
     # and finally we write out the values we used
     write_used_values(dest, jinja_params)
-
-
-
-
-

@@ -43,6 +43,7 @@ def parse(cfg=None):
             logging.debug('Adding parameter "%s".', param)
             create.add_argument(f'--{param}', default=None)
             edit.add_argument(f'--{param}', default=None)
+            copy.add_argument(f'--{param}', default=None)
 
     logging.info("Parsing arguments.")
     args = ap.parse_args()
@@ -50,7 +51,7 @@ def parse(cfg=None):
     # if any parameters are specified to take the value of another parameters, update them here
     if cfg_has_params and args.action in actions_with_params:
         logging.info("Checking for parameters that are not set.")
-        if args.action != 'edit':
+        if args.action not in ['edit', 'copy', 'cp']:
             for param, value in cfg['parameters'].items():
                 if getattr(args, param) is None:
                     setattr(args, param, value)
