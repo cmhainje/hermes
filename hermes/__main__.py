@@ -8,7 +8,7 @@ from .edit import edit
 from .parse import parse
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 
 
 def main():
