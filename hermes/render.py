@@ -48,3 +48,11 @@ def render_jinja_template(template_dir, template_name, output_dir, params):
 
     with open(join(output_dir, template_name), 'w') as f:
         f.write(rendered)
+
+
+def render_template_only(template_dir, template_name, params):
+    from jinja2 import Environment, FileSystemLoader
+
+    env = Environment(loader=FileSystemLoader(template_dir))
+    return env.get_template(template_name).render(**params)
+
