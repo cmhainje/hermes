@@ -22,7 +22,7 @@ def edit(args):
     # replace any unspecified parameters with the values from the used values file
     used_values = load_used_values(args.directory)
     for param, value in used_values.items():
-        if getattr(args, param) is None:
+        if not hasattr(args, param) or getattr(args, param) is None:
             setattr(args, param, value)
 
     # find the files that look like Jinja templates
