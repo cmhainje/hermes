@@ -283,8 +283,8 @@ these tasks, however, comes in combination with the `--multi` argument.
 ### Batched actions with the `--multi` argument
 
 Several actions have an optional argument `--multi` that I've brushed past so
-far. This argument allows you to use `hermes` to create and run tasks in
-_batches_.
+far. This argument allows you to use `hermes` to create directories and run
+tasks in _batches_.
 
 To use `--multi`, you need a CSV file containing the directory names and
 parameters for a _batch_ of new directories you want to render. (It is
@@ -342,11 +342,12 @@ these needs a parameter file and a SLURM job submission script. These all
 contain filepaths that need to be correct. There is also a "name" parameter that
 specifies the SLURM job name.
 
-The config file contains two tasks: `make_ic` (which submits the monofonIC job)
-and `submit` (which submits the Gadget4 job). Note that these are specified
-relative to the root of the rendered directory, so running the
-`run_monofonic.sh` script is done as `sbatch ics/run_monofonic.sh`, since the
-script lives in a subdirectory called "ics".
+The config file contains three tasks: `make_ic` (which submits the monofonIC
+job), `submit` (which submits the Gadget4 job), and `greet` (which `echo`s hello
+from the directory; just for testing). Note that these are specified relative to
+the root of the rendered directory, so running the `run_monofonic.sh` script is
+done as `sbatch ics/run_monofonic.sh`, since the script lives in a subdirectory
+called "ics".
 
 There is also a sample "params.csv" file included for toying with the batched
 actions.
