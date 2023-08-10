@@ -4,7 +4,8 @@
         "name": "{{directory}}"
     },
     "tasks": {
-        "greet": "echo Hello!",
-        "print": "cat sim/run_gadget.sh"
+        "greet": "echo \"hello from $(pwd)\"",
+        "make_ic": "sbatch ics/run_monofonic.sh",
+        "submit": "sbatch sim/run_gadget.sh"
     }
 }
