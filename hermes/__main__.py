@@ -25,10 +25,10 @@ def main():
 
     if args.action == "config":
         if args.config_action == "new":
-            print("Creating new configuration file at %s." % args.directory)
+            print("Creating new configuration file at %s" % args.directory)
             create_config_file(args.directory)
         elif args.config_action == "show":
-            print("Printing current configuration.")
+            print("Printing current configuration")
             print(cfg)
         else:
             logging.error("Unknown config_action %s.", args.config_action)

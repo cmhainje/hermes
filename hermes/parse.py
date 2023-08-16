@@ -122,7 +122,7 @@ def parse(cfg=None):
         logging.info("Checking for parameters that take the value of other parameters.")
         for param in cfg["parameters"].keys():
             value = getattr(args, param)
-            if value.startswith("{{") and value.endswith("}}"):
+            if value is not None and value.startswith("{{") and value.endswith("}}"):
                 other_param = value[2:-2].strip()
                 if not hasattr(args, other_param):
                     logging.warning(
