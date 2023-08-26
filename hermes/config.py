@@ -13,13 +13,12 @@ def load_configuration():
     cfg = dict()
 
     # user global config
-    global_file = Path('~/.config/hermes.json').expanduser()
+    global_file = Path("~/.config/hermes.json").expanduser()
     if global_file.is_file():
         logging.info("User global config found at %s.", global_file)
         cfg.update(load_config_file(global_file))
     else:
         logging.info("No user global config found.")
-
 
     # local config
     local_file = look_for_local_file()
@@ -42,12 +41,12 @@ def look_for_local_file(dir=None):
     else:
         dir = Path(dir)
 
-    if dir.joinpath('hermes.json').is_file():
-        return dir.joinpath('hermes.json')
-    
+    if dir.joinpath("hermes.json").is_file():
+        return dir.joinpath("hermes.json")
+
     for parent in dir.parents:
-        if parent.joinpath('hermes.json').is_file():
-            return parent.joinpath('hermes.json')
+        if parent.joinpath("hermes.json").is_file():
+            return parent.joinpath("hermes.json")
 
     return None
 
@@ -55,7 +54,7 @@ def look_for_local_file(dir=None):
 def load_config_file(filepath):
     import json
 
-    with open(filepath, 'r') as f:
+    with open(filepath, "r") as f:
         config = json.load(f)
 
     return config
@@ -68,13 +67,12 @@ def create_config_file(directory):
     logging.info("Creating new config file at %s.", filename)
     with open(filename, "w") as f:
         lines = [
-            '{',
+            "{",
             '    "template": "default",',
             '    "parameters": {',
-            '    },',
+            "    },",
             '    "tasks": {',
-            '    }',
-            '}',
+            "    }",
+            "}",
         ]
-        f.write('\n'.join(lines) + '\n')
-
+        f.write("\n".join(lines) + "\n")
