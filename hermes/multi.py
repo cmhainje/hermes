@@ -31,7 +31,7 @@ class FakeArgs:
 
 def run_multi(action_fn, args, *extra_args):
     if hasattr(args, "multi") and args.multi is not None:
-        print("Running %s on multiple simulations." % args.action)
+        print("Running %s on multiple simulations" % args.action)
         params = read_multi_parameter(args.multi)
 
         if "template" not in params:

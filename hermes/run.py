@@ -3,7 +3,7 @@ import subprocess
 
 
 def run(args, cfg):
-    print("Running task '%s' in %s." % (args.task, args.directory))
+    print("Running task '%s' in %s" % (args.task, args.directory))
 
     tasks = cfg["tasks"]
     if args.task not in tasks:

@@ -15,7 +15,7 @@ from .usedvalues import write_used_values
 
 def create(args):
     print(
-        "Creating new simulation from template %s in %s."
+        "Creating new simulation from template %s in %s"
         % (args.template, args.directory)
     )
 
